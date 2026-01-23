@@ -1,0 +1,14 @@
+node_modules
+dist
+.DS_Store
+server/public
+vite.config.ts.*
+*.tar.gz
+.env
+
+# Ignore all local files
+*.local
+.env.local
+# Except for .env.example
+!.env.example
+!.env.example.local
