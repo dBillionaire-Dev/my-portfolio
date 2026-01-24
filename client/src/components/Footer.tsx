@@ -11,7 +11,7 @@ export default function Footer() {
         <div className="col-span-1 md:col-span-2 space-y-4">
           <Link href="/">
             <a className="text-xl font-bold font-display tracking-tighter">
-              Portfolio<span className="text-primary/50">.</span>
+              NexDev<span className="text-primary/50">.</span>
             </a>
           </Link>
           <p className="text-muted-foreground max-w-sm">

@@ -21,10 +21,15 @@ export default function Navigation() {
       animate={{ y: 0, opacity: 1 }}
       className="fixed top-0 left-0 right-0 z-50 px-6 py-6 md:px-12 backdrop-blur-sm"
     >
-      <div className="max-w-7xl mx-auto flex items-center justify-between">
+      <div className="max-w-7xl mx-auto flex items-center justify-between transition-opacity">
         <Link href="/">
           <a className="text-xl font-bold font-display tracking-tighter hover:opacity-80 transition-opacity">
-            Portfolio<span className="text-primary/50">.</span>
+            <img
+            src="/logo.png"             
+            alt="Ebenezer Portfolio"
+            className="w-15 h-12"
+            loading="lazy"
+            />
           </a>
         </Link>
 
@@ -59,7 +64,7 @@ export default function Navigation() {
           )}
         </nav>
 
-        {/* Mobile Menu Placeholder - keeping it simple for now, focusing on desktop aesthetics as requested */}
+        {/* Mobile Menu Placeholder - keeping it simple*/}
         <div className="md:hidden">
           <Link href="/contact">
             <Button size="sm" variant="outline">Let's Talk</Button>
