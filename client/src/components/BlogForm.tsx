@@ -12,9 +12,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Loader2, Upload } from "lucide-react";
+import { Loader2, Link as LinkIcon } from "lucide-react";
 import { z } from "zod";
-import { useState } from "react";
+// import { useState } from "react";
 
 interface BlogFormProps {
   post?: BlogPost;
@@ -29,7 +29,7 @@ const formSchema = insertBlogPostSchema.extend({
 type FormValues = z.infer<typeof formSchema>;
 
 export function BlogForm({ post, onSubmit, isLoading }: BlogFormProps) {
-  const [isUploading, setIsUploading] = useState(false);
+  // const [isUploading, setIsUploading] = useState(false);
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -40,33 +40,36 @@ export function BlogForm({ post, onSubmit, isLoading }: BlogFormProps) {
       references: post?.references || "",
       tags: post?.tags || [],
       tagsString: post?.tags?.join(", ") || "",
+      publishedAt: post?.publishedAt
+      ? new Date(post.publishedAt).toISOString()
+      : new Date().toISOString(),
     },
   });
 
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+  // const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const file = e.target.files?.[0];
+  //   if (!file) return;
 
-    setIsUploading(true);
-    const reader = new FileReader();
-    reader.onloadend = async () => {
-      const base64data = reader.result as string;
-      try {
-        const res = await fetch("/api/upload", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name: file.name, data: base64data, type: file.type })
-        });
-        const data = await res.json();
-        form.setValue("imageUrl", data.url);
-      } catch (err) {
-        console.error("Upload failed", err);
-      } finally {
-        setIsUploading(false);
-      }
-    };
-    reader.readAsDataURL(file);
-  };
+  //   setIsUploading(true);
+  //   const reader = new FileReader();
+  //   reader.onloadend = async () => {
+  //     const base64data = reader.result as string;
+  //     try {
+  //       const res = await fetch("/api/upload", {
+  //         method: "POST",
+  //         headers: { "Content-Type": "application/json" },
+  //         body: JSON.stringify({ name: file.name, data: base64data, type: file.type })
+  //       });
+  //       const data = await res.json();
+  //       form.setValue("imageUrl", data.url);
+  //     } catch (err) {
+  //       console.error("Upload failed", err);
+  //     } finally {
+  //       setIsUploading(false);
+  //     }
+  //   };
+  //   reader.readAsDataURL(file);
+  // };
 
   const handleSubmit = (values: FormValues) => {
     const tags = values.tagsString 
@@ -127,7 +130,7 @@ export function BlogForm({ post, onSubmit, isLoading }: BlogFormProps) {
           />
         </div>
 
-        <FormField
+        {/* <FormField
           control={form.control}
           name="imageUrl"
           render={({ field }) => (
@@ -162,6 +165,51 @@ export function BlogForm({ post, onSubmit, isLoading }: BlogFormProps) {
                   <Upload className="w-3 h-3" /> Image uploaded successfully
                 </div>
               )}
+              <FormMessage />
+            </FormItem>
+          )}
+        /> */}
+
+        <FormField
+          control={form.control}
+          name="imageUrl"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Cover Image URL</FormLabel>
+
+              <FormControl>
+                <Input
+                  placeholder="https://example.com/cover-image.png"
+                  {...field}
+                  value={field.value || ""}
+                />
+              </FormControl>
+
+              <div className="flex items-center gap-2 text-sm text-muted-foreground mt-1">
+                <LinkIcon className="w-4 h-4" />
+                <a
+                  href="https://cloudinary.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary underline underline-offset-4"
+                >
+                  Upload image elsewhere and paste URL here
+                </a>
+              </div>
+
+              {field.value && (
+                <div className="mt-3">
+                  <img
+                    src={field.value}
+                    alt="Blog cover preview"
+                    className="max-h-48 rounded-md border object-cover"
+                    onError={(e) => {
+                      e.currentTarget.style.display = "none";
+                    }}
+                  />
+                </div>
+              )}
+
               <FormMessage />
             </FormItem>
           )}

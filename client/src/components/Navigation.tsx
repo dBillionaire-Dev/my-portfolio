@@ -57,9 +57,9 @@ export default function Navigation() {
             </div>
           ) : (
             <Link href="/auth">
-              <a className="text-sm text-muted-foreground hover:text-primary transition-colors ml-4">
+              {/* <a className="text-sm text-muted-foreground hover:text-primary transition-colors ml-4">
                 Login
-              </a>
+              </a> */}
             </Link>
           )}
         </nav>

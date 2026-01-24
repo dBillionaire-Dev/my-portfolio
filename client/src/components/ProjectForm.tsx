@@ -14,9 +14,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Loader2, Upload, Link as LinkIcon } from "lucide-react";
+import { Loader2, Link as LinkIcon } from "lucide-react";
 import { z } from "zod";
-import { useState } from "react";
 
 interface ProjectFormProps {
   project?: Project;
@@ -31,7 +30,6 @@ const formSchema = insertProjectSchema.extend({
 type FormValues = z.infer<typeof formSchema>;
 
 export function ProjectForm({ project, onSubmit, isLoading }: ProjectFormProps) {
-  const [isUploading, setIsUploading] = useState(false);
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -46,31 +44,6 @@ export function ProjectForm({ project, onSubmit, isLoading }: ProjectFormProps) 
       tagsString: project?.tags?.join(", ") || "",
     },
   });
-
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    setIsUploading(true);
-    const reader = new FileReader();
-    reader.onloadend = async () => {
-      const base64data = reader.result as string;
-      try {
-        const res = await fetch("/api/upload", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name: file.name, data: base64data, type: file.type })
-        });
-        const data = await res.json();
-        form.setValue("imageUrl", data.url);
-      } catch (err) {
-        console.error("Upload failed", err);
-      } finally {
-        setIsUploading(false);
-      }
-    };
-    reader.readAsDataURL(file);
-  };
 
   const handleSubmit = (values: FormValues) => {
     const tags = values.tagsString 
@@ -117,40 +90,46 @@ export function ProjectForm({ project, onSubmit, isLoading }: ProjectFormProps) 
           name="imageUrl"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Project Image</FormLabel>
-              <div className="flex gap-4">
-                <div className="relative flex-1">
-                  <input
-                    type="file"
-                    className="hidden"
-                    id="image-upload"
-                    accept="image/*"
-                    onChange={handleFileUpload}
-                    disabled={isUploading}
-                  />
-                  <Button 
-                    type="button" 
-                    variant="outline" 
-                    className="w-full"
-                    asChild 
-                    disabled={isUploading}
-                  >
-                    <label htmlFor="image-upload" className="cursor-pointer">
-                      {isUploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4 mr-2" />}
-                      {field.value ? "Change Image" : "Upload from device"}
-                    </label>
-                  </Button>
-                </div>
-              </div>
+              <FormLabel>Project Image URL</FormLabel>
+
+              <FormControl>
+                <Input
+                  placeholder="https://example.com/image.png"
+                  {...field}
+                  value={field.value || ""}
+                />
+              </FormControl>
+
+              <FormDescription className="flex items-center gap-2">
+                <LinkIcon className="w-4 h-4" />
+                <a
+                  href="https://cloudinary.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary underline underline-offset-4"
+                >
+                  Upload image and paste URL here
+                </a>
+              </FormDescription>
+
               {field.value && (
-                <div className="mt-2 text-xs text-muted-foreground flex items-center gap-2">
-                  <Upload className="w-3 h-3" /> Image uploaded successfully
+                <div className="mt-3">
+                  <img
+                    src={field.value}
+                    alt="Project preview"
+                    className="max-h-40 rounded-md border object-cover"
+                    onError={(e) => {
+                      e.currentTarget.style.display = "none";
+                    }}
+                  />
                 </div>
               )}
+
               <FormMessage />
             </FormItem>
           )}
         />
+
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <FormField

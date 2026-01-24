@@ -53,11 +53,11 @@ export default function Contact() {
             <div className="space-y-6">
               <div className="flex items-center gap-4 text-muted-foreground">
                 <Mail className="w-5 h-5" />
-                <span>hello@example.com</span>
+                <span><a href="mailto:nezerekunke.dev@gmail.com" target="blank" rel="noopener noreferrer">hello@thenex.dev</a></span>
               </div>
               <div className="flex items-center gap-4 text-muted-foreground">
                 <MapPin className="w-5 h-5" />
-                <span>San Francisco, CA</span>
+                <span>Lagos, Remote</span>
               </div>
             </div>
           </motion.div>

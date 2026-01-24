@@ -11,23 +11,23 @@ export default function Footer() {
         <div className="col-span-1 md:col-span-2 space-y-4">
           <Link href="/">
             <a className="text-xl font-bold font-display tracking-tighter">
-              NexDev<span className="text-primary/50">.</span>
+              NexDev<span className="text-primary/50">_.</span>
             </a>
           </Link>
           <p className="text-muted-foreground max-w-sm">
             Building robust digital architectures with a focus on backend excellence and AI integration.
           </p>
           <div className="flex gap-4">
-            <a href="#" className="p-2 rounded-full hover:bg-white/5 transition-colors">
+            <a href="https://github.com/dBillionaire-Dev" target="_blank" rel="noopener noreferrer" className="p-2 rounded-full hover:bg-white/5 transition-colors">
               <Github className="w-5 h-5" />
             </a>
-            <a href="#" className="p-2 rounded-full hover:bg-white/5 transition-colors">
+            <a href="https://www.linkedin.com/in/ebenezer-ekunke" target="_blank" rel="noopener noreferrer" className="p-2 rounded-full hover:bg-white/5 transition-colors">
               <Linkedin className="w-5 h-5" />
             </a>
-            <a href="#" className="p-2 rounded-full hover:bg-white/5 transition-colors">
+            <a href="https://x.com/dBillionaireDev" target="_blank" rel="noopener noreferrer" className="p-2 rounded-full hover:bg-white/5 transition-colors">
               <Twitter className="w-5 h-5" />
             </a>
-            <a href="/contact" className="p-2 rounded-full hover:bg-white/5 transition-colors">
+            <a href="mailto:nezerekunke.dev@gmail.com" target="_blank" rel="noopener noreferrer" className="p-2 rounded-full hover:bg-white/5 transition-colors">
               <Mail className="w-5 h-5" />
             </a>
           </div>
@@ -58,7 +58,6 @@ export default function Footer() {
       
       <div className="max-w-7xl mx-auto mt-12 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-muted-foreground">
         <p>&copy; {currentYear} All rights reserved.</p>
-        <p className="font-mono">Crafted with precision.</p>
       </div>
     </footer>
   );

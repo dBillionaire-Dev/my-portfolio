@@ -15,7 +15,7 @@ export default function Home() {
     <div className="bg-background text-foreground selection:bg-white/20">
       <main className="pt-32 pb-20 px-6 md:px-12 max-w-7xl mx-auto">
         {/* Hero Section */}
-        <section className="min-h-[70vh] lg:max-h-[70vh] flex flex-col justify-center">
+        <section className="min-h-[70vh] lg:max-h-[75vh] flex flex-col justify-center">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
@@ -36,7 +36,7 @@ export default function Home() {
               <div className="flex flex-wrap gap-4">
                 <Link href="/projects">
                   <Button size="lg" className="rounded-full px-8 text-base">
-                    View Work
+                    View My Work
                     <ArrowRight className="ml-2 w-4 h-4" />
                   </Button>
                 </Link>
@@ -61,7 +61,6 @@ export default function Home() {
                     src="/avatar.png" 
                     alt="Ebenezer" 
                     className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
-                    loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60" />
                 </div>
