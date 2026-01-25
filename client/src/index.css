@@ -43,13 +43,9 @@
 @layer utilities {
    .bg-background { background-color: theme("colors.background"); }
    .text-foreground { color: theme("colors.foreground"); }
-   .text-muted-foreground { color: theme("colors.muted.foreground"); }
-   .text-primary { color: theme("colors.primary.foreground"); }
-   .border-border {
-    /* border-color: theme("colors.border"); */
-     border-color: hsl(var(--border));
+  .border-border {
+    border-color: theme("colors.border");
   }
-  .bg-primary { background-color: theme("colors.primary.DEFAULT"); }
 }
 
 @layer base {
