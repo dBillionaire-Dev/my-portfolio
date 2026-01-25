@@ -46,7 +46,8 @@
    .text-muted-foreground { color: theme("colors.muted.foreground"); }
    .text-primary { color: theme("colors.primary.foreground"); }
    .border-border {
-    border-color: theme("colors.border");
+    /* border-color: theme("colors.border"); */
+     border-color: hsl(var(--border));
   }
   .bg-primary { background-color: theme("colors.primary.DEFAULT"); }
 }
