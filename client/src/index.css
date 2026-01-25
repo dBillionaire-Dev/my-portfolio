@@ -41,6 +41,8 @@
 }
 
 @layer utilities {
+   .bg-background { background-color: theme("colors.background"); }
+   .text-foreground { color: theme("colors.foreground"); }
   .border-border {
     border-color: theme("colors.border");
   }
