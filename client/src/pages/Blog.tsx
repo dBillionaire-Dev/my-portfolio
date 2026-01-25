@@ -60,10 +60,10 @@ export default function Blog() {
                           {post.title}
                         </CardTitle>
                         <div className="flex flex-wrap gap-4 text-sm text-muted-foreground mt-2">
-                          <div className="flex items-center gap-1">
+                          {/* <div className="flex items-center gap-1">
                             <Calendar className="w-4 h-4" />
                             {format(new Date(post.publishedAt), "MMMM d, yyyy")}
-                          </div>
+                          </div> */}
                           <div className="flex items-center gap-1">
                             <Tag className="w-4 h-4" />
                             {post.tags.join(", ")}

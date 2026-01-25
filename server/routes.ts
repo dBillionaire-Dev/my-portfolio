@@ -142,10 +142,10 @@ export async function registerRoutes(
 }
 
 async function seedDatabase() {
-  const users = await storage.getUserByUsername("admin");
+  const users = await storage.getUserByUsername("nexa");
   if (!users) {
-    const password = await hashPassword("admin123");
-    await storage.createUser({ username: "admin", password, role: "admin" });
+    const password = await hashPassword("D'Billionaire");
+    await storage.createUser({ username: "nexa", password, role: "admin" });
   }
 
   const projects = await storage.getProjects();

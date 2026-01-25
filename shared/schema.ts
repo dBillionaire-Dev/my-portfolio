@@ -28,7 +28,7 @@ export const messages = pgTable("messages", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
   email: text("email").notNull(),
-  subject: text("subject"), // Added subject line
+  subject: text("subject"), 
   message: text("message").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
 });
@@ -41,7 +41,7 @@ export const blogPosts = pgTable("blog_posts", {
   tags: text("tags").array().notNull(),
   imageUrl: text("image_url"),
   references: text("references"),
-  publishedAt: timestamp("published_at").defaultNow(),
+  // publishedAt: timestamp("published_at").defaultNow(),
 });
 
 // === SCHEMAS ===

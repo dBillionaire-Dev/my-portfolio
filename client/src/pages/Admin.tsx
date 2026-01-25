@@ -230,7 +230,7 @@ export default function Admin() {
                 <TableHeader>
                   <TableRow>
                     <TableHead>Title</TableHead>
-                    <TableHead>Date</TableHead>
+                    {/* <TableHead>Date</TableHead> */}
                     <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -238,7 +238,7 @@ export default function Admin() {
                   {blogPosts?.map((post: any) => (
                     <TableRow key={post.id}>
                       <TableCell className="font-medium">{post.title}</TableCell>
-                      <TableCell>{format(new Date(post.publishedAt), 'MMM d, yyyy')}</TableCell>
+                      {/* <TableCell>{format(new Date(post.publishedAt), 'MMM d, yyyy')}</TableCell> */}
                       <TableCell className="text-right space-x-2">
                         <Button
                           variant="ghost"
@@ -285,7 +285,7 @@ export default function Admin() {
                   {messages?.map((msg) => (
                     <TableRow key={msg.id}>
                       <TableCell className="whitespace-nowrap text-muted-foreground">
-                        {msg.createdAt && format(new Date(msg.createdAt), 'MMM d, yyyy')}
+                        {msg.createdAt && format(new Date(msg.createdAt), 'MMM d, yyyy - h:mm a')}
                       </TableCell>
                       <TableCell className="font-medium">{msg.name}</TableCell>
                       <TableCell>{msg.email}</TableCell>
@@ -311,8 +311,8 @@ export default function Admin() {
                                   <p className="text-sm whitespace-pre-wrap leading-relaxed">{msg.message}</p>
                                 </div>
                                 <div className="pt-4 border-t flex justify-between items-center text-xs text-muted-foreground">
-                                  <span>Sent via {msg.email}</span>
-                                  <span>{msg.createdAt && format(new Date(msg.createdAt), 'PPP')}</span>
+                                  <span>Sent via <a href={`mailto:${msg.email}?subject=Re: ${msg.subject || 'your message'}`} target="_blank" className="text-primary hover:underline">{msg.email}</a></span>
+                                  <span>{msg.createdAt && format(new Date(String(msg.createdAt)), 'PPPp')}</span>
                                 </div>
                               </div>
                             </DialogContent>
