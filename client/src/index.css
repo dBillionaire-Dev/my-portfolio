@@ -40,6 +40,12 @@
   --radius: 0.5rem;
 }
 
+@layer utilities {
+  .border-border {
+    border-color: theme("colors.border");
+  }
+}
+
 @layer base {
   * {
     @apply border-border;
