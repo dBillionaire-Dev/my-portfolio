@@ -143,11 +143,11 @@ export default function Home() {
             </div>
             <div className="flex items-center gap-3">
               <Database className="w-6 h-6" />
-              <span className="font-mono text-sm">PostgreSQL, MongoDB</span>
+              <span className="font-mono text-sm">PostgreSQL, MongoDB, Prisma, Supabase</span>
             </div>
             <div className="flex items-center gap-3">
               <Code2 className="w-6 h-6" />
-              <span className="font-mono text-sm">Node.js, FastAPI, Express.js, Nest.js, CI/CD, Docker, AWS, Kubernates</span>
+              <span className="font-mono text-sm">Node.js, FastAPI, Express.js, Nest.js, Fastify, CI/CD, Docker, AWS, Kubernates</span>
             </div>
           </div>
         </section>
