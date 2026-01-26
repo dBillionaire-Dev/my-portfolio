@@ -113,9 +113,9 @@ export default {
   darkMode: ["class"],
   content: [
     "./index.html",
-    "./src/**/*.{js,jsx,ts,tsx}"
-    // "../shared/**/*.{js,ts,jsx,tsx}",
-    // "../attached_assets/**/*.{js,ts,jsx,tsx,css}",
+    "./src/**/*.{js,jsx,ts,tsx}",
+    "../shared/**/*.{js,ts,jsx,tsx}",
+    "../attached_assets/**/*.{js,ts,jsx,tsx,css}"
   ],
   theme: {
     extend: {
