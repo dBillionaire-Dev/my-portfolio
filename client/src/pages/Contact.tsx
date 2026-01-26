@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { insertMessageSchema, type InsertMessage } from "@shared/schema";
+import { insertMessageSchema, type InsertMessage } from "@shared/routes";
 import { useMessages } from "@/hooks/use-messages";
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";

@@ -38,7 +38,7 @@ import {
   LayoutList,
   MessageSquare
 } from "lucide-react";
-import { type Project } from "@shared/schema";
+import { type Project, type BlogPost } from "@shared/schema";
 import { format } from "date-fns";
 
 export default function Admin() {
@@ -47,8 +47,7 @@ export default function Admin() {
   const { user, isLoading: isAuthLoading } = useAuth();
   const { projects, createProject, updateProject, deleteProject } = useProjects();
   const { messages } = useMessages();
-  
-  const { data: blogPosts } = useQuery({
+  const { data: blogPosts } = useQuery<BlogPost[]>({
     queryKey: ["/api/blog"],
   });
 
@@ -235,7 +234,7 @@ export default function Admin() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {blogPosts?.map((post: any) => (
+                  {blogPosts?.map((post) => (
                     <TableRow key={post.id}>
                       <TableCell className="font-medium">{post.title}</TableCell>
                       {/* <TableCell>{format(new Date(post.publishedAt), 'MMM d, yyyy')}</TableCell> */}

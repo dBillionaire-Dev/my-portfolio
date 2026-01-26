@@ -20,14 +20,14 @@ export async function setupVite(server: Server, app: Express) {
     configFile: false,
     customLogger: {
       ...viteLogger,
-      error: (msg, options) => {
+      error: (msg: string, options: any) => {
         viteLogger.error(msg, options);
         process.exit(1);
       },
     },
     server: serverOptions,
     appType: "custom",
-  });
+  } as any);
 
   app.use(vite.middlewares);
 

@@ -40,9 +40,9 @@ export function BlogForm({ post, onSubmit, isLoading }: BlogFormProps) {
       references: post?.references || "",
       tags: post?.tags || [],
       tagsString: post?.tags?.join(", ") || "",
-      publishedAt: post?.publishedAt
-      ? new Date(post.publishedAt).toISOString()
-      : new Date().toISOString(),
+      // publishedAt: post?.publishedAt
+      // ? new Date(post.publishedAt).toISOString()
+      // : new Date().toISOString(),
     },
   });
 
@@ -110,7 +110,7 @@ export function BlogForm({ post, onSubmit, isLoading }: BlogFormProps) {
               </FormItem>
             )}
           />
-          <FormField
+          {/* <FormField
             control={form.control}
             name="publishedAt"
             render={({ field }) => (
@@ -127,7 +127,7 @@ export function BlogForm({ post, onSubmit, isLoading }: BlogFormProps) {
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
         </div>
 
         {/* <FormField

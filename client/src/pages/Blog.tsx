@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { api } from "@shared/routes";
+import { api, type BlogPost } from "@shared/routes";
 import { Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -9,7 +9,7 @@ import { Calendar, Tag } from "lucide-react";
 import { format } from "date-fns";
 
 export default function Blog() {
-  const { data: posts, isLoading } = useQuery({
+  const { data: posts, isLoading } = useQuery<BlogPost[]>({
     queryKey: ["/api/blog"],
   });
 
@@ -47,7 +47,7 @@ export default function Blog() {
                 </Card>
               ))
             ) : (
-              posts?.map((post: any) => (
+              posts?.map((post) => (
                 <motion.div
                   key={post.id}
                   whileHover={{ y: -5 }}

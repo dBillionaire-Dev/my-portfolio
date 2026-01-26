@@ -1,77 +1,68 @@
-// import { defineConfig } from "vite";
-// import react from "@vitejs/plugin-react";
-// import path from "path";
-// import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
-
-// export default defineConfig({
-//   plugins: [
-//     react(),
-//     runtimeErrorOverlay(),
-//     ...(process.env.NODE_ENV !== "production" &&
-//     process.env.REPL_ID !== undefined
-//       ? [
-//           await import("@replit/vite-plugin-cartographer").then((m) =>
-//             m.cartographer(),
-//           ),
-//           await import("@replit/vite-plugin-dev-banner").then((m) =>
-//             m.devBanner(),
-//           ),
-//         ]
-//       : []),
-//   ],
-//   resolve: {
-//     alias: {
-//       "@": path.resolve(import.meta.dirname, "client", "src"),
-//       "@shared": path.resolve(import.meta.dirname, "shared"),
-//       "@assets": path.resolve(import.meta.dirname, "attached_assets"),
-//     },
-//   },
-//   root: path.resolve(import.meta.dirname, "client"),
-//   build: {
-//     outDir: path.resolve(import.meta.dirname, "dist/public"),
-//     emptyOutDir: true,
-//   },
-//   server: {
-//     fs: {
-//       strict: true,
-//       deny: ["**/.*"],
-//     },
-//   },
-// });
-console.log("VITE CONFIG LOADED");
-import { fileURLToPath } from "url";
 
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
+import { fileURLToPath } from "url";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
+import tailwindcss from 'tailwindcss';
+import autoprefixer from 'autoprefixer';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+console.log("VITE CONFIG LOADED FROM CLIENT FOLDER");
+
 export default defineConfig({
-  root: path.resolve(__dirname),
+  // Since this file is in /client, the root is this directory
+  root: __dirname,
 
   plugins: [
-    react(), // MUST be first
-    runtimeErrorOverlay(),
+    react(), 
+    runtimeErrorOverlay() as any,
   ],
 
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "/src"),
+      // Maps '@' to 'client/src'
+      "@": path.resolve(__dirname, "src"),
+      // Maps '@shared' to the 'shared' folder one level up
       "@shared": path.resolve(__dirname, "../shared"),
-      "@assets": path.resolve(__dirname, "../attached_assets"),
+    },
+  },
+
+  css: {
+    postcss: {
+      plugins: [
+        // Ensures Tailwind scans the correct files relative to this config
+        tailwindcss({ 
+          config: path.resolve(__dirname, 'tailwind.config.ts') 
+        }),
+        autoprefixer(),
+      ],
     },
   },
 
   build: {
-    outDir: path.resolve(__dirname, "dist/public"),
+    // Places the final build in the root's dist folder
+    outDir: path.resolve(__dirname, "../dist/public"),
     emptyOutDir: true,
+    reportCompressedSize: true,
+    rollupOptions: {
+      output: {
+        // Optimized chunking to keep the initial load small
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'framer-motion'],
+          highlighter: ['react-syntax-highlighter'],
+          markdown: ['react-markdown', 'remark-gfm'],
+        },
+      },
+    },
   },
 
   server: {
     fs: {
+      // Allows Vite to serve files from the shared folder one level up
+      allow: ['..'],
       strict: true,
       deny: ["**/.*"],
     },

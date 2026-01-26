@@ -204,7 +204,8 @@ export function ProjectForm({ project, onSubmit, isLoading }: ProjectFormProps) 
                 <FormControl>
                   <Input 
                     type="number" 
-                    {...field} 
+                    {...field}
+                    value={field.value ?? ''}
                     onChange={e => field.onChange(parseInt(e.target.value) || 0)}
                   />
                 </FormControl>

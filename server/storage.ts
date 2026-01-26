@@ -7,6 +7,7 @@ import {
   type BlogPost, type InsertBlogPost, type UpdateBlogPostRequest
 } from "@shared/schema";
 import { eq, desc } from "drizzle-orm";
+import session from "express-session";
 
 export interface IStorage {
   // Auth
@@ -36,6 +37,9 @@ export interface IStorage {
 }
 
 export class DatabaseStorage implements IStorage {
+  // In-memory session store for express-session
+  sessionStore: session.MemoryStore = new session.MemoryStore();
+
   // Auth
   async getUser(id: number): Promise<User | undefined> {
     const [user] = await db.select().from(users).where(eq(users.id, id));

@@ -63,7 +63,7 @@ export async function registerRoutes(
   });
 
   app.get(api.blog.get.path, async (req, res) => {
-    const post = await storage.getBlogPostBySlug(req.params.slug);
+    const post = await storage.getBlogPostBySlug(String(req.params.slug));
     if (!post) return res.status(404).json({ message: "Post not found" });
     res.json(post);
   });

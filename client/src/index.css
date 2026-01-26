@@ -38,17 +38,25 @@
   }
 
   * {
-    @apply border-border;
+    border-color: hsl(var(--border) / 1);
   }
 
   body {
-    @apply bg-background text-foreground antialiased selection:bg-white/20 selection:text-white;
+    background-color: hsl(var(--background) / 1);
+    color: hsl(var(--foreground) / 1);
     font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background-color: rgb(255 255 255 / 0.2);
+    color: rgb(255 255 255 / 1);
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
-    @apply tracking-tight;
+    letter-spacing: -0.02em;
   }
 }
 
