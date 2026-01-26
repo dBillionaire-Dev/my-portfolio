@@ -51,8 +51,8 @@ async function buildAll() {
     platform: "node",
     bundle: true,
     format: "cjs",
-    // outfile: "dist/index.cjs",
-    outfile: "dist/public",
+    outfile: "dist/public/index.cjs",
+    // outfile: "dist/public",
     define: {
       "process.env.NODE_ENV": '"production"',
     },
