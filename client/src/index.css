@@ -4,82 +4,73 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --font-sans: 'Inter', sans-serif;
-  --font-display: 'Geist', sans-serif;
-
-  /* Dark mode by default */
-  --background: 240 10% 3.9%;
-  --foreground: 0 0% 98%;
-
-  --card: 240 10% 3.9%;
-  --card-foreground: 0 0% 98%;
-
-  --popover: 240 10% 3.9%;
-  --popover-foreground: 0 0% 98%;
-
-  --primary: 0 0% 98%;
-  --primary-foreground: 240 5.9% 10%;
-
-  --secondary: 240 3.7% 15.9%;
-  --secondary-foreground: 0 0% 98%;
-
-  --muted: 240 3.7% 15.9%;
-  --muted-foreground: 240 5% 64.9%;
-
-  --accent: 240 3.7% 15.9%;
-  --accent-foreground: 0 0% 98%;
-
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 0 0% 98%;
-
-  --border: 240 3.7% 15.9%;
-  --input: 240 3.7% 15.9%;
-  --ring: 240 4.9% 83.9%;
-
-  --radius: 0.5rem;
-}
-
-@layer utilities {
-   .bg-background { background-color: theme("colors.background"); }
-   .text-foreground { color: theme("colors.foreground"); }
-  .border-border {
-    border-color: theme("colors.border");
-  }
-}
-
 @layer base {
+  :root {
+    --font-sans: 'Inter', sans-serif;
+    --font-display: 'Geist', sans-serif;
+
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+
+    --radius: 0.5rem;
+  }
+
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground antialiased selection:bg-white/20 selection:text-white;
     font-family: var(--font-sans);
   }
+
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
     @apply tracking-tight;
   }
 }
 
-/* Custom Utilities for aesthetic */
-.glass-panel {
-  @apply bg-zinc-900/50 backdrop-blur-md border border-white/10 shadow-xl;
-}
+@layer components {
+  .glass-panel {
+    @apply bg-zinc-900/50 backdrop-blur-md border border-white/10 shadow-xl;
+  }
 
-.text-gradient {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-white to-white/50;
-}
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-white to-white/50;
+  }
 
-.nav-link {
-  @apply relative text-sm font-medium text-muted-foreground transition-colors hover:text-primary;
-}
+  .nav-link {
+    @apply relative text-sm font-medium text-muted-foreground transition-colors hover:text-primary;
+  }
 
-.nav-link::after {
-  content: '';
-  @apply absolute left-0 -bottom-1 w-0 h-px bg-primary transition-all duration-300;
-}
+  .nav-link::after {
+    content: '';
+    @apply absolute left-0 -bottom-1 w-0 h-px bg-primary transition-all duration-300;
+  }
 
-.nav-link:hover::after {
-  @apply w-full;
+  .nav-link:hover::after {
+    @apply w-full;
+  }
 }
