@@ -44,7 +44,7 @@ export default defineConfig({
 
   build: {
     // Places the final build in the root's dist folder
-    outDir: path.resolve(__dirname, "../dist/public"),
+    outDir: path.resolve(__dirname, "dist/public"),
     emptyOutDir: true,
     reportCompressedSize: true,
     rollupOptions: {
