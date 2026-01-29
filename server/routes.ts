@@ -13,7 +13,7 @@ export async function registerRoutes(
   setupAuth(app);
 
   // === Projects ===
-  app.get(api.projects.list.path, async (req, res) => {
+  app.get(api.projects.list.path, async (_req, res) => {
     const projects = await storage.getProjects();
     res.json(projects);
   });
@@ -57,7 +57,7 @@ export async function registerRoutes(
   });
 
   // === Blog ===
-  app.get(api.blog.list.path, async (req, res) => {
+  app.get(api.blog.list.path, async (_req, res) => {
     const posts = await storage.getBlogPosts();
     res.json(posts);
   });
@@ -97,7 +97,7 @@ export async function registerRoutes(
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Unauthorized" });
     // In a real app, use multer. For this prototype, we'll accept base64 in JSON
     // or simulate a successful upload for the UI.
-    const { name, data, type } = req.body;
+    const { data } = req.body;
     if (!data) return res.status(400).json({ message: "No data provided" });
     
     // For simplicity in this environment, we'll just return the base64 data as the URL

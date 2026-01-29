@@ -86,14 +86,15 @@ app.use((req, res, next) => {
     return res.status(status).json({ message });
   });
 
-  // importantly only setup vite in development and after
+  // importantly only setup static serving in development and after
   // setting up all the other routes so the catch-all route
   // doesn't interfere with the other routes
   if (process.env.NODE_ENV === "production") {
     serveStatic(app);
   } else {
-    const { setupVite } = await import("./vite");
-    await setupVite(httpServer, app);
+    // In development, Next.js is serving the frontend on port 3000
+    // This Express server only needs to serve the API routes
+    serveStatic(app);
   }
 
   // ALWAYS serve the app on the port specified in the environment variable PORT
