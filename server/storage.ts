@@ -1,4 +1,3 @@
-import { db } from "./db";
 import {
   users, projects, messages, blogPosts,
   type User, type InsertUser,
@@ -8,6 +7,7 @@ import {
 } from "@shared/schema";
 import { eq, desc } from "drizzle-orm";
 import session from "express-session";
+import { db } from "./db";
 
 export interface IStorage {
   // Auth
@@ -134,4 +134,99 @@ export class DatabaseStorage implements IStorage {
   }
 }
 
-export const storage = new DatabaseStorage();
+class InMemoryStorage implements IStorage {
+  sessionStore: session.MemoryStore = new session.MemoryStore();
+  private _users: User[] = [];
+  private _projects: Project[] = [];
+  private _messages: Message[] = [];
+  private _posts: BlogPost[] = [];
+  private _id = 1;
+
+  // Auth
+  async getUser(id: number) {
+    return this._users.find(u => u.id === id);
+  }
+
+  async getUserByUsername(username: string) {
+    return this._users.find(u => u.username === username);
+  }
+
+  async createUser(user: InsertUser) {
+    const newUser = { id: this._id++, ...user } as unknown as User;
+    this._users.push(newUser);
+    return newUser;
+  }
+
+  // Projects
+  async getProjects() {
+    return [...this._projects].sort((a, b) => (b.priority || 0) - (a.priority || 0));
+  }
+
+  async getProject(id: number) {
+    return this._projects.find(p => p.id === id);
+  }
+
+  async createProject(project: InsertProject) {
+    const newProject = { id: this._id++, ...project } as unknown as Project;
+    this._projects.push(newProject);
+    return newProject;
+  }
+
+  async updateProject(id: number, updates: UpdateProjectRequest) {
+    const idx = this._projects.findIndex(p => p.id === id);
+    if (idx === -1) throw new Error("Not found");
+    this._projects[idx] = { ...this._projects[idx], ...updates } as Project;
+    return this._projects[idx];
+  }
+
+  async deleteProject(id: number) {
+    this._projects = this._projects.filter(p => p.id !== id);
+  }
+
+  // Blog
+  async getBlogPosts() {
+    return [...this._posts];
+  }
+
+  async getBlogPostBySlug(slug: string) {
+    return this._posts.find(p => p.slug === slug);
+  }
+
+  async getBlogPostById(id: number) {
+    return this._posts.find(p => p.id === id);
+  }
+
+  async createBlogPost(post: InsertBlogPost) {
+    const newPost = { id: this._id++, ...post } as unknown as BlogPost;
+    this._posts.push(newPost);
+    return newPost;
+  }
+
+  async updateBlogPost(id: number, updates: UpdateBlogPostRequest) {
+    const idx = this._posts.findIndex(p => p.id === id);
+    if (idx === -1) throw new Error("Not found");
+    this._posts[idx] = { ...this._posts[idx], ...updates } as BlogPost;
+    return this._posts[idx];
+  }
+
+  async deleteBlogPost(id: number) {
+    this._posts = this._posts.filter(p => p.id !== id);
+  }
+
+  // Messages
+  async createMessage(message: InsertMessage) {
+    const newMsg = { id: this._id++, ...message } as unknown as Message;
+    this._messages.push(newMsg);
+    return newMsg;
+  }
+
+  async getMessages() {
+    return [...this._messages];
+  }
+
+  async deleteMessage(id: number) {
+    this._messages = this._messages.filter(m => m.id !== id);
+  }
+}
+
+export const storage = db ? new DatabaseStorage() : new InMemoryStorage();

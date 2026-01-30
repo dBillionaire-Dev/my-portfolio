@@ -1,0 +1,28 @@
+import { MetadataRoute } from 'next'
+
+export default function sitemap(): MetadataRoute.Sitemap {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://nex.is-a.dev';
+
+  // If you have dynamic blog posts, you'd fetch them here:
+  // const posts = await getPosts();
+  // const postEntries = posts.map(post => ({
+  //   url: `${siteUrl}/blog/${post.slug}`,
+  //   lastModified: new Date(post.updatedAt),
+  // }));
+
+  return [
+    {
+      url: siteUrl,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 1,
+    },
+    {
+      url: `${siteUrl}/projects`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    // ...postEntries, 
+  ]
+}

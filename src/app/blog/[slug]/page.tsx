@@ -52,7 +52,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     <div className="min-h-screen bg-background flex flex-col">
       <Navigation />
       <main className="flex-1 container mx-auto px-4 py-24 pt-32">
-        <motion.article
+        <AnimatedDiv
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -129,7 +129,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               </div>
             </section>
           )}
-        </motion.article>
+        </AnimatedDiv>
       </main>
       <Footer />
     </div>

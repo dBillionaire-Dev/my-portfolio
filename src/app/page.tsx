@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from 'next/image'
 import { ArrowRight, Code2, Database, Layout, Terminal } from "lucide-react";
 import AnimatedDiv from "@/components/AnimatedDiv";
 import { ProjectCard } from "@/components/ProjectCard";
@@ -80,10 +81,17 @@ export default async function Home() {
               <div className="relative aspect-square max-w-md mx-auto">
                 <div className="absolute inset-0 bg-primary/20 rounded-full blur-[100px] animate-pulse" />
                 <div className="relative rounded-2xl overflow-hidden border border-white/10 aspect-square shadow-2xl group">
-                  <img 
+                  {/* <Image 
                     src="/avatar.png" 
                     alt="Ebenezer" 
                     className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                  /> */}
+                  <Image 
+                    src="/avatar.png" 
+                    alt="Ebenezer" 
+                    fill 
+                    className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                    sizes="(max-width: 768px) 100vw, 50vw"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60" />
                 </div>
