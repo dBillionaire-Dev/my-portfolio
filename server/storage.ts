@@ -1,6 +1,6 @@
 import {
   users, projects, messages, blogPosts,
-  type User, type InsertUser,
+  type User, type InsertUser, type UpdateUser,
   type Project, type InsertProject, type UpdateProjectRequest,
   type Message, type InsertMessage,
   type BlogPost, type InsertBlogPost, type UpdateBlogPostRequest
@@ -14,6 +14,7 @@ export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
+  updateUser(id: number, updates: UpdateUser): Promise<User>;
 
   // Projects
   getProjects(): Promise<Project[]>;
@@ -53,6 +54,14 @@ export class DatabaseStorage implements IStorage {
 
   async createUser(insertUser: InsertUser): Promise<User> {
     const [user] = await db.insert(users).values(insertUser).returning();
+    return user;
+  }
+
+  async updateUser(id: number, updates: UpdateUser): Promise<User> {
+    const [user] = await db.update(users)
+      .set(updates)
+      .where(eq(users.id, id))
+      .returning();
     return user;
   }
 
@@ -155,6 +164,13 @@ class InMemoryStorage implements IStorage {
     const newUser = { id: this._id++, ...user } as unknown as User;
     this._users.push(newUser);
     return newUser;
+  }
+
+  async updateUser(id: number, updates: UpdateUser) {
+    const idx = this._users.findIndex(u => u.id === id);
+    if (idx === -1) throw new Error("User not found");
+    this._users[idx] = { ...this._users[idx], ...updates } as User;
+    return this._users[idx];
   }
 
   // Projects

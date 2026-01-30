@@ -27,6 +27,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
+      "http://localhost:4000",
       "https://my-portfolionow.vercel.app",
     ],
     credentials: true,

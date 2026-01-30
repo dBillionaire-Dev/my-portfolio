@@ -1,6 +1,7 @@
 import { QueryClient, QueryFunction } from "@tanstack/react-query";
 
-const API_BASE = typeof window !== "undefined" ? (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') : (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000');
+// Hardcode for development - use environment variable in production
+const API_BASE = "http://localhost:4000";
 
 async function throwIfResNotOk(res: Response) {
   if (!res.ok) {

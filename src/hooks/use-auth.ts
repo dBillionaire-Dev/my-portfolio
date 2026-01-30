@@ -3,6 +3,8 @@ import { api } from "@shared/routes";
 import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
 
+const API_BASE = "http://localhost:4000";
+
 const loginInput = api.auth.login.input;
 type LoginInput = z.infer<typeof loginInput>;
 
@@ -13,7 +15,7 @@ export function useAuth() {
   const { data: user, isLoading } = useQuery({
     queryKey: [api.auth.user.path],
     queryFn: async () => {
-      const res = await fetch(api.auth.user.path, { credentials: "include" });
+      const res = await fetch(`${API_BASE}${api.auth.user.path}`, { credentials: "include" });
       if (res.status === 401) return null;
       if (!res.ok) throw new Error("Failed to fetch user");
       return api.auth.user.responses[200].parse(await res.json());
@@ -23,13 +25,13 @@ export function useAuth() {
 
   const loginMutation = useMutation({
     mutationFn: async (credentials: LoginInput) => {
-      const res = await fetch(api.auth.login.path, {
+      const res = await fetch(`${API_BASE}${api.auth.login.path}`, {
         method: api.auth.login.method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(credentials),
         credentials: "include",
       });
-      
+
       if (!res.ok) {
         if (res.status === 401) throw new Error("Invalid username or password");
         throw new Error("Login failed");
@@ -41,8 +43,8 @@ export function useAuth() {
       toast({ title: "Welcome back", description: "Successfully logged in" });
     },
     onError: (error: Error) => {
-      toast({ 
-        title: "Login failed", 
+      toast({
+        title: "Login failed",
         description: error.message,
         variant: "destructive"
       });
@@ -51,7 +53,7 @@ export function useAuth() {
 
   const logoutMutation = useMutation({
     mutationFn: async () => {
-      const res = await fetch(api.auth.logout.path, {
+      const res = await fetch(`${API_BASE}${api.auth.logout.path}`, {
         method: api.auth.logout.method,
         credentials: "include",
       });

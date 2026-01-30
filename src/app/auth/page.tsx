@@ -30,6 +30,15 @@ export default function Auth() {
   const { login, isLoggingIn, user } = useAuth();
   const [isClient, setIsClient] = useState(false);
 
+  // Call useForm at the top level before any conditional returns
+  const form = useForm<z.infer<typeof loginSchema>>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      username: "",
+      password: "",
+    },
+  });
+
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -39,17 +48,9 @@ export default function Auth() {
       router.push("/admin");
     }
   }, [user, isClient, router]);
-  
+
   if (!isClient) return null;
   if (user) return null;
-
-  const form = useForm<z.infer<typeof loginSchema>>({
-    resolver: zodResolver(loginSchema),
-    defaultValues: {
-      username: "",
-      password: "",
-    },
-  });
 
   function onSubmit(data: z.infer<typeof loginSchema>) {
     login(data, {
@@ -61,7 +62,7 @@ export default function Auth() {
     <div className="min-h-screen bg-background flex flex-col">
       <Navigation />
       
-      <div className="flex-1 flex items-center justify-center p-6">
+      <div className="flex-1 flex items-center justify-center p-6 mt-20">
         <div className="w-full max-w-sm space-y-6">
           <div className="text-center space-y-2">
             <h1 className="text-2xl font-bold tracking-tight">Admin Access</h1>

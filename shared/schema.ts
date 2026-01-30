@@ -55,6 +55,7 @@ export const insertBlogPostSchema = createInsertSchema(blogPosts).omit({ id: tru
 
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
+export type UpdateUser = Partial<InsertUser>;
 
 export type Project = typeof projects.$inferSelect;
 export type InsertProject = z.infer<typeof insertProjectSchema>;

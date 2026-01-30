@@ -3,7 +3,7 @@ import { ProjectCard } from "@/components/ProjectCard";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+const API_BASE = "http://localhost:4000";
 
 export default async function Projects() {
   let projects = [];

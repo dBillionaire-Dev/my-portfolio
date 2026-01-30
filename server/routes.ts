@@ -142,11 +142,29 @@ export async function registerRoutes(
 }
 
 async function seedDatabase() {
+  console.log("[Seed] Checking database seed status");
   const users = await storage.getUserByUsername("nexa");
+  console.log("[Seed] User found:", users ? "yes" : "no");
+  
   if (!users) {
-    const password = await hashPassword("D'Billionaire");
+    console.log("[Seed] Creating new user");
+    const password = await hashPassword("DBillionaire123");
     await storage.createUser({ username: "nexa", password, role: "admin" });
+    console.log("[Seed] User created successfully");
+  } else {
+    // Update password if using the old one (for development)
+    console.log("[Seed] User exists, checking password hash");
+    const newPasswordHash = await hashPassword("DBillionaire123");
+    if (users.password !== newPasswordHash) {
+      console.log("[Seed] Updating user password to new format");
+      await storage.updateUser(users.id, { password: newPasswordHash });
+      console.log("[Seed] Password updated");
+    } else {
+      console.log("[Seed] Password already up to date");
+    }
   }
+
+  console.log("[Seed] Database seeding complete");
 
   const projects = await storage.getProjects();
   if (projects.length === 0) {

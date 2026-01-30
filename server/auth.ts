@@ -41,25 +41,41 @@ export function setupAuth(app: Express) {
   passport.use(
     new LocalStrategy(async (username, password, done) => {
       try {
+        console.log("[Auth] Login attempt for user:", username);
+        
         // Use custom credentials provided by the user
-        if (username === "nexa" && password === "D'Billionaire") {
+        if (username === "nexa" && password === "DBillionaire123") {
+          console.log("[Auth] Using hardcoded credentials");
           let user = await storage.getUserByUsername("nexa");
+          console.log("[Auth] Found user:", user ? "yes" : "no");
           if (!user) {
+            console.log("[Auth] Creating new user");
             user = await storage.createUser({
               username: "nexa",
-              password: await hashPassword("D'Billionaire"),
+              password: await hashPassword("DBillionaire123"),
             });
           }
           return done(null, user);
         }
 
+        console.log("[Auth] Checking database credentials");
         const user = await storage.getUserByUsername(username);
-        if (!user || !(await comparePasswords(password, user.password))) {
+        console.log("[Auth] User found:", user ? "yes" : "no");
+        if (!user) {
+          console.log("[Auth] User not found, returning false");
+          return done(null, false);
+        }
+        
+        const passwordMatch = await comparePasswords(password, user.password);
+        console.log("[Auth] Password match:", passwordMatch);
+        
+        if (!passwordMatch) {
           return done(null, false);
         } else {
           return done(null, user);
         }
       } catch (err) {
+        console.error("[Auth] Error:", err);
         return done(err);
       }
     }),
