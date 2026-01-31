@@ -5,16 +5,16 @@ import Footer from "@/components/Footer";
 
 export default async function Projects() {
   let projects: any[] = [];
-  
+
   try {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 5000);
 // Use relative URL for server-side fetch
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/projects`, { 
+    const res = await fetch(`/api/projects`, {
       // Remove ISR during build - only works with real database
       // next: { revalidate: 60 },
       cache: 'no-store',
-      signal: controller.signal 
+      signal: controller.signal
     });
     clearTimeout(timeoutId);
     projects = res.ok ? await res.json() : [];
