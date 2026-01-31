@@ -2,7 +2,8 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { api, type InsertMessage } from "@shared/routes";
 import { useToast } from "@/hooks/use-toast";
 
-const API_BASE = "http://localhost:4000";
+// Use relative URLs - API routes are on same origin
+const API_BASE = "";
 
 export function useMessages() {
   const { toast } = useToast();

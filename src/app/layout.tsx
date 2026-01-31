@@ -1,11 +1,8 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Providers } from "./providers";
 import "@/styles/globals.css";
-
-const inter = Inter({ subsets: ["latin"] });
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://nex.is-a.dev';
 
@@ -32,7 +29,6 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        // url: `${siteUrl}/og-image.png`,
         url: 'og-image.png',
         width: 1200,
         height: 630,
@@ -44,7 +40,6 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Ebenezer Portfolio',
     description: 'Full-stack engineer specializing in robust backend architectures and AI-driven applications.',
-    // images: [`${siteUrl}/og-image.png`],
     images: ['/og-image.png'],
     creator: '@dBillionaireDev',
   },
@@ -64,7 +59,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className="font-sans antialiased">
         <Providers>
           <TooltipProvider>
             {children}
@@ -75,3 +70,4 @@ export default function RootLayout({
     </html>
   );
 }
+

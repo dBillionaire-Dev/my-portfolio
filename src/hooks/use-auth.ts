@@ -3,7 +3,8 @@ import { api } from "@shared/routes";
 import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
 
-const API_BASE = "http://localhost:4000";
+// Use relative URLs - API routes are on same origin
+const API_BASE = "";
 
 const loginInput = api.auth.login.input;
 type LoginInput = z.infer<typeof loginInput>;

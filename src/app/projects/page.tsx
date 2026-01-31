@@ -3,19 +3,23 @@ import { ProjectCard } from "@/components/ProjectCard";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 
-const API_BASE = "http://localhost:4000";
-
 export default async function Projects() {
-  let projects = [];
+  let projects: any[] = [];
   
   try {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 5000);
-    const res = await fetch(`${API_BASE}/api/projects`, { next: { revalidate: 60 }, signal: controller.signal });
+// Use relative URL for server-side fetch
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/projects`, { 
+      // Remove ISR during build - only works with real database
+      // next: { revalidate: 60 },
+      cache: 'no-store',
+      signal: controller.signal 
+    });
     clearTimeout(timeoutId);
     projects = res.ok ? await res.json() : [];
   } catch (error) {
-    console.warn('Failed to fetch projects from backend:', error);
+    console.warn('Failed to fetch projects:', error);
     projects = [];
   }
 

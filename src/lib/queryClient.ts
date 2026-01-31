@@ -1,7 +1,7 @@
 import { QueryClient, QueryFunction } from "@tanstack/react-query";
 
-// Hardcode for development - use environment variable in production
-const API_BASE = "http://localhost:4000";
+// Use relative URLs - Next.js API routes are on the same origin
+const API_BASE = "";
 
 async function throwIfResNotOk(res: Response) {
   if (!res.ok) {

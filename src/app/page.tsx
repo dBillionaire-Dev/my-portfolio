@@ -7,17 +7,18 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 
-const API_BASE = "http://localhost:4000";
-
 export default async function Home() {
-  let projects = [];
+  let projects: any[] = [];
   
   try {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
     
-    const res = await fetch(`${API_BASE}/api/projects`, { 
-      next: { revalidate: 60 },
+// Use relative URL for server-side fetch
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/projects`, { 
+      // Remove ISR during build - only works with real database
+      // next: { revalidate: 60 },
+      cache: 'no-store',
       signal: controller.signal 
     });
     clearTimeout(timeoutId);
@@ -26,7 +27,7 @@ export default async function Home() {
       projects = await res.json();
     }
   } catch (error) {
-    console.warn('Failed to fetch projects from backend. Make sure the backend server is running on port 5000:', error);
+    console.warn('Failed to fetch projects:', error);
     // Fall back to empty projects list
     projects = [];
   }

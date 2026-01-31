@@ -1,14 +1,11 @@
 import { z } from 'zod';
 import { 
-  insertUserSchema, 
   insertProjectSchema, 
   insertMessageSchema, 
   insertBlogPostSchema, 
-  users, 
   projects, 
   messages, 
   blogPosts,
-  type InsertUser,
   type InsertProject,
   type InsertMessage,
   type UpdateProjectRequest,
@@ -16,9 +13,9 @@ import {
   type BlogPost,
 } from './schema';
 
-export type { InsertUser, InsertProject, InsertMessage, UpdateProjectRequest, UpdateBlogPostRequest, BlogPost };
+export type { InsertProject, InsertMessage, UpdateProjectRequest, UpdateBlogPostRequest, BlogPost };
 
-export { insertMessageSchema, insertProjectSchema, insertUserSchema, insertBlogPostSchema };
+export { insertMessageSchema, insertProjectSchema, insertBlogPostSchema };
 
 export const errorSchemas = {
   validation: z.object({
@@ -40,28 +37,28 @@ export const api = {
   auth: {
     login: {
       method: 'POST' as const,
-      path: '/api/login',
+      path: '/api/auth/login',
       input: z.object({
         username: z.string(),
         password: z.string(),
       }),
       responses: {
-        200: z.custom<typeof users.$inferSelect>(),
+        200: z.object({ id: z.number(), username: z.string(), role: z.string() }),
         401: errorSchemas.unauthorized,
       },
     },
     logout: {
       method: 'POST' as const,
-      path: '/api/logout',
+      path: '/api/auth/logout',
       responses: {
         200: z.object({ message: z.string() }),
       },
     },
     user: {
       method: 'GET' as const,
-      path: '/api/user',
+      path: '/api/auth/me',
       responses: {
-        200: z.custom<typeof users.$inferSelect>(),
+        200: z.object({ id: z.number(), username: z.string(), role: z.string() }),
         401: errorSchemas.unauthorized,
       },
     },
@@ -161,7 +158,7 @@ export const api = {
   messages: {
     create: {
       method: 'POST' as const,
-      path: '/api/contact',
+      path: '/api/messages',
       input: insertMessageSchema,
       responses: {
         201: z.custom<typeof messages.$inferSelect>(),

@@ -9,8 +9,6 @@ import AnimatedDiv from "@/components/AnimatedDiv";
 import { Tag } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const API_BASE = "http://localhost:4000";
-
 interface BlogPost {
   id: number;
   title: string;
@@ -29,14 +27,20 @@ export default function Blog() {
       try {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 3000);
-        const res = await fetch(`${API_BASE}/api/blog`, { next: { revalidate: 60 }, signal: controller.signal });
+// Use relative URL for client-side fetch
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/blog`, { 
+          // Remove ISR during build - only works with real database
+          // next: { revalidate: 60 },
+          cache: 'no-store',
+          signal: controller.signal 
+        });
         clearTimeout(timeoutId);
         if (res.ok) {
           const data = await res.json();
           setPosts(data);
         }
       } catch (error) {
-        console.warn('Failed to fetch blog posts from backend:', error);
+        console.warn('Failed to fetch blog posts:', error);
       } finally {
         setLoading(false);
       }

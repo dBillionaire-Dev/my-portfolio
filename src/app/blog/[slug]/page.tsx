@@ -1,5 +1,3 @@
-"use client"
-
 import Link from "next/link";
 import { type BlogPost } from "@shared/routes";
 import Navigation from "@/components/Navigation";
@@ -12,20 +10,39 @@ import remarkGfm from "remark-gfm";
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+// Remove 'use client' - this is now a Server Component
+// import Link from "next/link";
+// import { type BlogPost } from "@shared/routes";
+// import Navigation from "@/components/Navigation";
+// import Footer from "@/components/Footer";
+// import AnimatedDiv from "@/components/AnimatedDiv";
+// import { ArrowLeft, Tag, BookOpen } from "lucide-react";
+// import { Button } from "@/components/ui/button";
+// import ReactMarkdown from "react-markdown";
+// import remarkGfm from "remark-gfm";
+// import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+// import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
 
 interface BlogPostPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
+  const { slug } = await params;
   let res;
   try {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 5000);
-    res = await fetch(`${API_BASE}/api/blog/${params.slug}`, { next: { revalidate: 60 }, signal: controller.signal });
+    res = await fetch(`${API_BASE}/api/blog/${slug}`, { 
+      // Remove ISR during build
+      // next: { revalidate: 60 },
+      cache: 'no-store',
+      signal: controller.signal 
+    });
     clearTimeout(timeoutId);
   } catch (error) {
     console.warn('Failed to fetch blog post from backend:', error);
@@ -135,3 +152,4 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     </div>
   );
 }
+

@@ -2,7 +2,8 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { api, buildUrl, type InsertProject, type UpdateProjectRequest } from "@shared/routes";
 import { useToast } from "@/hooks/use-toast";
 
-const API_BASE = "http://localhost:4000";
+// Use relative URLs - API routes are on same origin
+const API_BASE = "";
 
 export function useProjects() {
   const queryClient = useQueryClient();

@@ -51,6 +51,10 @@ export const insertProjectSchema = createInsertSchema(projects).omit({ id: true,
 export const insertMessageSchema = createInsertSchema(messages).omit({ id: true, createdAt: true });
 export const insertBlogPostSchema = createInsertSchema(blogPosts).omit({ id: true });
 
+// Update schemas (partial schemas for PATCH requests)
+export const updateProjectSchema = insertProjectSchema.partial();
+export const updateBlogPostSchema = insertBlogPostSchema.partial();
+
 // === EXPLICIT TYPES ===
 
 export type User = typeof users.$inferSelect;
